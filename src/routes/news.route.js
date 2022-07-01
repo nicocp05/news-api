@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', getNews);
 router.get('/:id', [
-    check('id').isMongoId()
+    check('id', 'Is not a valid mongo id').isMongoId()
 ], validateFields, getNew);
 router.post('/', [
     check('title', 'Title is required').not().isEmpty(),
@@ -17,7 +17,7 @@ router.post('/', [
     check('author', 'Author is required').not().isEmpty()
 ], validateFields, postNew);
 router.delete('/:id', [
-    check('id').isMongoId()
+    check('id', 'Is not a valid mongo id').isMongoId()
 ], validateFields, deleteNew);
 
 

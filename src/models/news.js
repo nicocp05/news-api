@@ -1,6 +1,6 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 
-const newsSchema = new Schema({
+const newsSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -23,10 +23,11 @@ const newsSchema = new Schema({
     },
     archiveDate: {
         type: Date,
-        default: undefined
+        default: null
     }
 }, {
     versionKey: false
 }, { collection: 'news' });
 
-export const News = model('News', newsSchema);
+export const News = mongoose.model('News', newsSchema);
+
