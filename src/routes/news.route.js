@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { deleteNew, getNew, getNews, postNew } from '../controllers/news.controllers.js';
+
+import { getArchivedNews, deleteNew, getNew, getNews, postNew, putNew } from '../controllers/news.controllers.js';
 import { validateFields } from '../middlewares/validate-fields.js';
 
 const router = Router();
 
 router.get('/', getNews);
+router.get('/archived', getArchivedNews);
 router.get('/:id', [
     check('id', 'Is not a valid mongo id').isMongoId()
 ], validateFields, getNew);
@@ -16,6 +18,9 @@ router.post('/', [
     check('content', 'Content is required').not().isEmpty(),
     check('author', 'Author is required').not().isEmpty()
 ], validateFields, postNew);
+router.put('/:id', [
+    check('id', 'Is not a valid mongo id').isMongoId()
+], validateFields, putNew);
 router.delete('/:id', [
     check('id', 'Is not a valid mongo id').isMongoId()
 ], validateFields, deleteNew);

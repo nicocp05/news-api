@@ -3,16 +3,52 @@ import { News } from "../models/news.js";
 
 export const getNews = async ( req, res ) => {
 
+
     try {
 
-        const news = await News.find();
+        const news = await News.find()
+                               .where('archiveDate')
+                               .equals(null)
+                               .sort({date: 'desc'});
 
-        console.log(news);
 
         if(news.length < 1) {
             return res.json({
                 ok: false,
                 msg: 'News is empty'
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            news
+        });
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Server error'
+        });
+    }
+
+}
+
+export const getArchivedNews = async ( req, res ) => {
+    
+
+    try {
+
+        const news = await News.find()
+                               .where('archiveDate')
+                               .ne(null)
+                               .sort({archiveDate: 'desc'});
+
+
+        if(news.length < 1) {
+            return res.json({
+                ok: false,
+                msg: 'Archived News is empty'
             });
         }
 
@@ -72,6 +108,39 @@ export const postNew = async ( req, res ) => {
         res.status(200).json({
             ok: true,
             msg: 'News created'
+        });
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: 'Server error'
+        });
+    }
+
+}
+
+export const putNew = async ( req, res ) => {
+
+    const id = req.params.id;
+    const body = req.body;
+
+    try {
+        
+        const news = await News.findById(id);
+
+        if(!news) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'News not founded'
+            });
+        }
+
+        await News.findByIdAndUpdate(id, body);
+
+        res.status(200).json({
+            ok: true,
+            msg: 'News updated'
         });
 
     } catch (error) {

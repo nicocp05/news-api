@@ -10,7 +10,7 @@ const newsSchema = new mongoose.Schema({
         required: true
     },
     date: {
-        type: Date,
+        type: Number,
         default: Date.now
     },
     content: {
@@ -22,7 +22,7 @@ const newsSchema = new mongoose.Schema({
         required: true
     },
     archiveDate: {
-        type: Date,
+        type: Number,
         default: null
     }
 }, {
