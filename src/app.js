@@ -11,6 +11,9 @@ const app = express();
 // Database connection
 dbConnection();
 
+// Static files
+app.use( express.static('public') );
+
 // Middlewares
 app.use(cors());
 app.use(express.json());
