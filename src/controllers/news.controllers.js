@@ -13,7 +13,7 @@ export const getNews = async ( req, res ) => {
 
 
         if(news.length < 1) {
-            return res.json({
+            return res.status(400).json({
                 ok: false,
                 msg: 'News is empty'
             });
@@ -103,11 +103,12 @@ export const postNew = async ( req, res ) => {
 
     try {
         
-        await news.save();
+        const createdNews = await news.save();
 
-        res.status(200).json({
+        res.status(201).json({
             ok: true,
-            msg: 'News created'
+            msg: 'News created',
+            createdNews
         });
 
     } catch (error) {
